@@ -7,7 +7,6 @@ const STORAGE_BUCKET = 'product-photos';
 function _dk(e) { return atob(e); }
 
 const _pk = _dk('c2JfcHVibGlzaGFibGVfVkVrbEtPNXZQaE4wcVlXanNCUEhXd19vRTI0RGRpQg==');
-const _sk = _dk('c2Jfc2VjcmV0X1d5NEsyMFhIYkcwTDVGLVZjUTNMS3dfVlAtMVZiYjc=');
 
 // Initialize Supabase Client
 const db = window.supabase.createClient(SUPABASE_URL, _pk);
@@ -670,8 +669,8 @@ async function handleProductSubmit(e) {
     response = await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${id}`, {
       method: 'PATCH',
       headers: {
-        'apikey': _sk,
-        'Authorization': `Bearer ${_sk}`,
+        'apikey': _pk,
+        'Authorization': `Bearer ${_pk}`,
         'Content-Type': 'application/json',
         'Prefer': 'return=representation'
       },
@@ -681,8 +680,8 @@ async function handleProductSubmit(e) {
     response = await fetch(`${SUPABASE_URL}/rest/v1/products`, {
       method: 'POST',
       headers: {
-        'apikey': _sk,
-        'Authorization': `Bearer ${_sk}`,
+        'apikey': _pk,
+        'Authorization': `Bearer ${_pk}`,
         'Content-Type': 'application/json',
         'Prefer': 'return=representation'
       },
@@ -705,8 +704,8 @@ async function updateStock(id, newStock) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${id}`, {
     method: 'PATCH',
     headers: {
-      'apikey': _sk,
-      'Authorization': `Bearer ${_sk}`,
+      'apikey': _pk,
+      'Authorization': `Bearer ${_pk}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ stock: newStock })
@@ -725,8 +724,8 @@ async function deleteProduct(id) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${id}`, {
     method: 'DELETE',
     headers: {
-      'apikey': _sk,
-      'Authorization': `Bearer ${_sk}`
+      'apikey': _pk,
+      'Authorization': `Bearer ${_pk}`
     }
   });
 
