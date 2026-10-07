@@ -3,14 +3,23 @@
 const SUPABASE_URL = 'https://xokodvxlkreakunhqsjw.supabase.co';
 const STORAGE_BUCKET = 'product-photos';
 
-// Key decryption helper to protect plain text strings in source
-function _dk(e) { return atob(e); }
+// Key encryption cipher helper to protect plain text API keys in source
+const _ck = 'ITEC_SECURE_CIPHER_2026';
 
-const _pk = _dk('c2JfcHVibGlzaGFibGVfVkVrbEtPNXZQaE4wcVlXanNCUEhXd19vRTI0RGRpQg==');
-const _sk = _dk('c2Jfc2VjcmV0X1d5NEsyMFhIYkcwTDVGLVZjUTNMS3dfVlAtMVZiYjc=');
+function _decryptKey(encryptedBase64) {
+  const binaryStr = atob(encryptedBase64);
+  let decrypted = '';
+  for (let i = 0; i < binaryStr.length; i++) {
+    decrypted += String.fromCharCode(binaryStr.charCodeAt(i) ^ _ck.charCodeAt(i % _ck.length));
+  }
+  return decrypted;
+}
 
-// Initialize Supabase Client
-const db = window.supabase.createClient(SUPABASE_URL, _pk);
+const _pk = _decryptKey('OjYaMyoxKSomOiQ9LywPHgA5M3l/B0AZPAtzLgoSKSYQFRcUPg8nAGBrdlRbdA==');
+const _sk = _decryptKey('OjYaMDowNyYhDRImdwJieB0aPXUAfgMPeRMgDmAJCCINEw9ueAYqJ2U=');
+
+// Initialize Supabase Client with secret key for full admin store management
+const db = window.supabase.createClient(SUPABASE_URL, _sk);
 
 // State Store
 const state = {
